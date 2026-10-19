@@ -1,0 +1,127 @@
+import { useCallback, useEffect, useState } from "react";
+import { Activity, AlertTriangle, ArrowLeft, ArrowUpRight, Box, ChevronRight, GitCompareArrows, GitFork, LayoutDashboard, Moon, RefreshCw, Radio, ShieldCheck, Sun } from "lucide-react";
+import { api, asRuns } from "./api";
+import Home from "./screens/Home";
+import Runs from "./screens/Runs";
+import RunDetail from "./screens/RunDetail";
+import Live from "./screens/Live";
+import Replay from "./screens/Replay";
+import Compare from "./screens/Compare";
+import Evaluation from "./screens/Evaluation";
+
+const NAV = [
+  ["runs", "Overview", LayoutDashboard],
+  ["live", "Live execution", Radio],
+  ["replay", "Replay & alternatives", GitFork],
+  ["compare", "Trace comparison", GitCompareArrows],
+  ["evaluation", "Model evaluation", Activity],
+];
+const routeFromHash = () => window.location.hash.slice(1) || "home";
+
+export function Brand({ onClick }) {
+  return <button className="identity" onClick={onClick} aria-label="BlackBox home"><span className="identity-icon"><Box size={22} strokeWidth={1.7} /></span><span>BlackBox<span className="identity-period">.</span><small>AGENT FLIGHT RECORDER</small></span></button>;
+}
+
+export default function App() {
+  const [route, setRoute] = useState(routeFromHash);
+  const requestedView = route.split("/")[0];
+  const view = ["home", "run", ...NAV.map(([id]) => id)].includes(requestedView) ? requestedView : "home";
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("blackbox_theme");
+    if (saved) return saved;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("blackbox_theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => (t === "dark" ? "light" : "dark"));
+
+  const [runs, setRuns] = useState([]);
+  const [stats, setStats] = useState(null);
+  const [llm, setLlm] = useState(null);
+  const [modelStatus, setModelStatus] = useState(null);
+  const [benchModel, setBenchModel] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [compareIds, setCompareIds] = useState(null);
+  const [repairCandidate, setRepairCandidate] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const reload = useCallback(async () => {
+    try {
+      const [r, s, l] = await Promise.all([api("/runs?limit=300"), api("/stats"), api("/llm/status")]);
+      setRuns(asRuns(r)); setStats(s); setLlm(l); setError("");
+      setModelStatus(await api("/models/status").catch(() => null));
+    } catch (e) { setError(e.message); }
+    finally { setLoading(false); }
+  }, []);
+  useEffect(() => { reload(); }, [reload]);
+  useEffect(() => {
+    // Which agent model the measured benchmarks came from (shown next to the live agent).
+    api("/eval").then(m => {
+      const models = Object.values(m.provenance?.manifests || {}).map(x => x.model).filter(x => x && !x.startsWith("rule"));
+      setBenchModel(models[0] || null);
+    }).catch(() => {});
+  }, []);
+  useEffect(() => {
+    const update = () => { setRoute(routeFromHash()); window.scrollTo({ top: 0 }); };
+    window.addEventListener("hashchange", update);
+    return () => window.removeEventListener("hashchange", update);
+  }, []);
+  useEffect(() => {
+    if (view !== "run" || !route.includes("/")) return;
+    let current = true;
+    setSelected(null);
+    api("/runs/" + encodeURIComponent(route.split("/")[1])).then(r => { if (current) setSelected(r); }).catch(e => { if (current) setError(e.message); });
+    return () => { current = false; };
+  }, [route, view]);
+
+  const go = target => { window.location.hash = target; window.scrollTo({ top: 0 }); };
+  const openRun = async (id, target = "run") => {
+    try { setSelected(await api("/runs/" + id)); go(target === "run" ? "run/" + id : target); }
+    catch (e) { setError(e.message); }
+  };
+  const compare = (a, b) => { setCompareIds([a, b]); go("compare"); reload(); };
+  const active = view === "run" ? "runs" : view;
+  const trained = modelStatus?.available === true;
+
+  if (view === "home") return <Home go={go} Brand={Brand} theme={theme} toggleTheme={toggleTheme} />;
+
+  return <div className="workspace">
+    <a className="skip-link" href="#workspace-content" onClick={e => { e.preventDefault(); document.getElementById("workspace-content")?.focus(); }}>Skip to content</a>
+    <aside className="sidebar">
+      <Brand onClick={() => go("home")} />
+      <div className="workspace-label"><span className="workspace-avatar">B</span><div>Black Box workspace<small>Local environment</small></div><ChevronRight size={15} /></div>
+      <span className="nav-caption">WORKSPACE</span>
+      <nav className="workspace-nav" aria-label="Workspace">{NAV.map(([id, label, Icon]) => <button key={id} className={active === id ? "active" : ""} onClick={() => go(id)} aria-current={active === id ? "page" : undefined}><Icon size={18} /><span>{label}</span></button>)}</nav>
+      <div className="sidebar-guide"><span className="guide-icon"><ShieldCheck size={20} /></span><h3>Make every step explainable.</h3><p>Inspect a failure. Test an alternative. Keep the evidence.</p><button onClick={() => go("replay")}>Explore replay & alternatives <ArrowUpRight size={15} /></button></div>
+      <div className="sidebar-bottom"><button onClick={() => go("home")}><ArrowLeft size={16} /> Product homepage</button><span><span className={"status-dot " + (error ? "offline" : loading ? "pending" : "")} />{error ? "Backend unavailable" : loading ? "Connecting…" : "Connected to local backend"}</span></div>
+    </aside>
+    <div className="workspace-body">
+      <header className="workspace-header">
+        <div className="breadcrumb">Workspace <ChevronRight size={14} /><strong>{view === "run" ? "Run investigation" : NAV.find(([id]) => id === view)?.[1]}</strong></div>
+        <div className="header-status">
+          <span className="environment-tag"><span className={"status-dot " + (error ? "offline" : loading ? "pending" : "")} />{error ? "Disconnected" : loading ? "Connecting" : "Local workspace"}</span>
+          <button className="icon-button theme-toggle-btn" onClick={toggleTheme} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`} title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}>
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+          <button className="icon-button" onClick={reload} aria-label="Refresh workspace"><RefreshCw size={16} /></button>
+          <span className="user-avatar" aria-label="Black Box workspace">BB</span>
+        </div>
+      </header>
+      <main id="workspace-content" className="workspace-content" tabIndex={-1}>
+        {error && <div className="banner-error" role="alert"><AlertTriangle size={18} /><span>{error}. Check the local backend on port 8010.</span><button className="btn small" onClick={reload}><RefreshCw size={14} /> Retry</button></div>}
+        {view === "runs" && <><div className="workspace-eyebrow"><span className="status-dot" /> EXECUTION INTELLIGENCE</div><Runs runs={runs} stats={stats} loading={loading} openRun={openRun} go={go} reload={reload} /><div className="workspace-footnote"><span><ShieldCheck size={15} />{loading ? "Checking diagnosis engine…" : trained ? "Trained diagnosis model available" : "Rule-based diagnosis · trained model not loaded"}</span><span>Live agent: {llm ? llm.active_provider === "sandbox" ? "Offline sandbox" : llm.active_model || llm.active_provider : "Unavailable"}{llm?.openai_key_configured ? ` (or ${llm.openai_model})` : ""}{benchModel ? ` · benchmarks on ${benchModel}` : ""}</span></div></>}
+        {view === "run" && (selected ? <RunDetail run={selected} onBack={() => go("runs")} onReplay={candidate => { setRepairCandidate(candidate ? { ...candidate, runId: selected.run_id } : null); go("replay"); }} /> : <div className="empty"><h3>Loading investigation…</h3><button className="btn" onClick={() => go("runs")}>Return to overview</button></div>)}
+        {view === "live" && <Live llm={llm} onDone={reload} openRun={openRun} />}
+        {view === "replay" && <Replay runs={runs} selected={selected} setSelected={setSelected} initialCandidate={repairCandidate} onCompare={compare} onUpdate={reload} />}
+        {view === "compare" && <Compare runs={runs} initialIds={compareIds} />}
+        {view === "evaluation" && <Evaluation />}
+      </main>
+      <footer className="workspace-footer"><span>BlackBox. <span>Every execution tells a story.</span></span><span>Record / Investigate / Replay</span></footer>
+    </div>
+  </div>;
+}
