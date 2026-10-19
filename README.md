@@ -53,3 +53,16 @@ Agent execution → Step recorder → SQLite traces + checkpoints
 ```
 
 The built-in engine supports selective reuse. External LangGraph replay uses native checkpoints and LangGraph execution semantics; its replay capabilities differ from the built-in engine. See [architecture](docs/ARCHITECTURE.md).
+
+## Tech stack
+
+| Layer | Technologies |
+| --- | --- |
+| Backend | Python, FastAPI, Uvicorn, Pydantic |
+| Agent execution | LangGraph; sandbox, OpenAI, and Ollama providers |
+| Diagnosis | PyTorch Transformer, LightGBM, autoencoder, sentence-transformer features |
+| Storage | SQLite traces, checkpoints, and usage ledger |
+| Dashboard | React 19, Vite, Tailwind CSS, Lucide icons |
+| Observability | OpenTelemetry and OpenInference-style span attributes |
+| Verification | pytest, FastAPI TestClient, dashboard production build |
+| Packaging | Docker and Docker Compose |
