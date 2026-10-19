@@ -141,3 +141,14 @@ npm --prefix dashboard run dev
 ```
 
 Open [localhost:5174](http://localhost:5174). Vite proxies `/api` requests and WebSockets to port `8010`. On macOS/Linux, use the activated virtual environment's `python` for the backend command. Rebuild the dashboard to update the version served directly by FastAPI.
+
+## Try the workflow
+
+1. Start the app with the sandbox provider and demo seeding enabled.
+2. Choose **Open workspace** and inspect a recorded run.
+3. Open a failed incident to review acceptance checks, suspect steps, and recorded evidence.
+4. Use **Alternatives** to test candidate fixes from the saved checkpoint.
+5. Compare the replay branch with the original and inspect which checks passed or failed.
+6. Use **Live run** to record a new task; the built-in families cover finance, SQL, document QA, and math.
+
+A successful replay supports a proposed explanation. It does not prove that the suggested step is the only possible cause. For an external graph example, run `python examples/expense_agent.py` in your virtual environment.
