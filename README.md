@@ -234,3 +234,17 @@ integrations/     Claude Code hook configuration
 scripts/          Development and experimental training helpers
 tests/            Engine, API, diagnosis, and integration coverage
 ```
+
+## Tests and build
+
+With your virtual environment active:
+
+```bash
+python -m pytest -q
+npm --prefix dashboard ci
+npm --prefix dashboard run build
+```
+
+On Windows you can invoke `.\.venv\Scripts\python.exe -m pytest -q` directly. Use `LLM_PROVIDER=sandbox` and `EXPLAINER_NARRATIVE=template` for local validation. Feature encoders may download on first use; set `HF_HUB_OFFLINE=1` and `TRANSFORMERS_OFFLINE=1` when validating without downloads, allowing the available fallback behavior.
+
+The existing suite covers recording, failure diagnosis, replay, alternatives, verification, external graph handling, API behavior, and ingestion. The dashboard build checks compilation; it is not an automated browser test.
