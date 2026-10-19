@@ -10,3 +10,13 @@ data
 artifacts
 *.log
 .cache
+
+# Local-only files outside the data directory
+.idea
+.vscode
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+.envrc
