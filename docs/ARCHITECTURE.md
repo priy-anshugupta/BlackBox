@@ -15,3 +15,11 @@ The recorded trace is the inspection surface. Secret redaction is implemented in
 `diagnosis.py` produces ranked suspects and evidence. `explain/` builds the supporting narrative, feature factors, trace comparisons, and data-flow information. The default narrative is template-based; optional language-model narration is separate from the diagnosis model.
 
 `verifier.py` evaluates independent acceptance criteria such as source freshness, agreement, argument consistency, and answers. A model's explanation does not determine whether a repair passes. Unknown checks should remain unknown rather than becoming implicit successes.
+
+## Replay and alternatives
+
+Replay creates a new linked run, preserving the original incident. The built-in engine starts from a saved checkpoint, applies an intervention, and re-executes affected work. Recorded and fresh replay modes answer different questions about cached observations and new tool execution.
+
+`strategies.py` describes candidate repairs and their preconditions. Experiments can test several candidates from one incident. Results include independent check outcomes, cost/usage, and the relationship between the original and replay branches.
+
+External LangGraph graphs use native graph checkpoints. Their reducers and scheduling rules remain controlled by LangGraph. Graphs without a checkpointer can be recorded but cannot fork or resume. The SDK capability map explicitly does not promise the built-in engine's selective reuse for arbitrary external graphs.
