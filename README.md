@@ -123,3 +123,21 @@ docker compose up --build
 Open [localhost:8010](http://localhost:8010). The Compose service binds to loopback and mounts `./data` for local models, metrics, caches, and databases. `.env` is optional for Compose; copy the example if you want custom settings. The first build installs the Python and JavaScript dependencies and can take time.
 
 Use `docker compose down` to stop the services. Local data in `./data` remains on disk. See [setup](docs/SETUP.md) for configuration details.
+
+## Development
+
+After installing the dependencies, use two terminals from the repository root.
+
+Backend, on Windows:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn blackbox.api.app:app --reload --host 127.0.0.1 --port 8010 --env-file .env
+```
+
+Dashboard:
+
+```bash
+npm --prefix dashboard run dev
+```
+
+Open [localhost:5174](http://localhost:5174). Vite proxies `/api` requests and WebSockets to port `8010`. On macOS/Linux, use the activated virtual environment's `python` for the backend command. Rebuild the dashboard to update the version served directly by FastAPI.
