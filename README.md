@@ -213,3 +213,24 @@ BlackBox is a working research prototype and portfolio project. It has meaningfu
 - Large generated datasets and trace databases are excluded, so saved benchmark results are not a complete reproduction bundle.
 
 Planned directions include broader workflow evaluation, more diverse natural failures, and clearer integration/setup tooling. These are goals, not delivered features.
+
+## Repository layout
+
+```text
+blackbox/
+  agent/          Built-in LangGraph tasks and tools
+  api/            HTTP API and durable event streaming
+  recorder/       SDK adapters and OpenTelemetry support
+  models/         Diagnosis model definitions and training
+  features/       Semantic and numeric feature extraction
+  explain/        Evidence, narratives, and trace comparison
+  benchmarks/     Public and held-out workflow evaluation
+  engine.py       Execution, replay, and experiments
+dashboard/        React dashboard, assets, and screenshots
+data/             Committed metrics and trained model artifacts
+docs/             Setup, architecture, API, and research notes
+examples/         External graph integration example
+integrations/     Claude Code hook configuration
+scripts/          Development and experimental training helpers
+tests/            Engine, API, diagnosis, and integration coverage
+```
