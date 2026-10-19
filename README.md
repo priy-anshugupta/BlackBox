@@ -22,3 +22,9 @@ Record an agent run, investigate where it went wrong, and test a fix from a save
 </details>
 
 Screenshots are captured from the existing project UI; appearance can vary with the selected theme and local data.
+
+## Why I am continuing this project
+
+Agent failures often show up several steps after the original mistake. A stale tool response can reach a calculator, a planner can lose a constraint, or a final answer can hide an earlier error. A final transcript alone makes these problems difficult to investigate.
+
+BlackBox keeps the intermediate inputs, outputs, state, and dependencies so a developer can follow the failure backward, inspect the evidence, and compare a proposed repair against an independent check. My focus for this personal continuation is making that workflow easier to run, understand, and extend.
