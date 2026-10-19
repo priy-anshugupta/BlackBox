@@ -33,3 +33,22 @@ $created.run_id
 Creation returns HTTP 202 with a run ID. Fetch the run with `GET /api/runs/{run_id}` or connect to `ws://127.0.0.1:8010/api/runs/{run_id}/stream`. Streams contain durable step and terminal events; an `after` event cursor lets a client resume. Run retrieval immediately after creation may show queued/running state.
 
 Supported built-in families are `finance`, `sql`, `doc_qa`, and `math`. Unknown fields and invalid inputs are rejected by the API request models.
+
+## Replay and experiments
+
+`POST /api/runs/{run_id}/replay` accepts a positive `from_step`, a patch, replay count `k` from 1 to 10, and a mode (`recorded` or `fresh`). Use the actual step and output schema from the recorded run when constructing a patch.
+
+For example, this is the request shape for a manually supplied output intervention:
+
+```json
+{
+  "from_step": 3,
+  "patch": {"output": {"value": 52.47}},
+  "k": 3,
+  "mode": "recorded"
+}
+```
+
+The value above is illustrative, not a universal repair. Inspect `GET /api/runs/{run_id}/suggest-fix?step=3` or the alternatives endpoint for incident-specific candidates. `POST /api/runs/{run_id}/experiments` runs strategies from a checkpoint and can explicitly control billed-provider permission with `allow_billed`.
+
+Experiments create linked runs. Compare two run IDs with `GET /api/compare?a={before_id}&b={after_id}`. Keep intervention type, check outcomes, and reused work in the interpretation of any repair result.
