@@ -12,3 +12,17 @@ Read and run [examples/expense_agent.py](../examples/expense_agent.py) for a com
 | LangGraph with checkpointer | Yes | Yes | Yes | No generic guarantee |
 | LangGraph without checkpointer | Yes | Yes | No | No |
 | Claude Code ingestion | Yes | Yes | No | No |
+
+## MCP tools
+
+The optional `blackbox/mcp_server.py` uses stdio and calls the running HTTP backend. Its default backend is `http://127.0.0.1:8010`; override with `BLACKBOX_URL`.
+
+The module imports `mcp.server.mcpserver.MCPServer`, which is not installed by the base dependency list. A compatible MCP SDK exposing that interface is required. This optional integration is not validated by the base test suite; do not assume an arbitrary MCP SDK release is compatible.
+
+With the compatible SDK installed and the backend running:
+
+```bash
+python -m blackbox.mcp_server
+```
+
+Point your MCP client's stdio configuration at that command using the repository root as its working directory. Tools include `list_failed_runs`, `diagnose_run`, `explain_run`, `test_fix`, and `failure_stats`. `test_fix` creates replay branches; the other tools inspect recorded data. Review the underlying provider and replay behavior before allowing a client to trigger experiments.
