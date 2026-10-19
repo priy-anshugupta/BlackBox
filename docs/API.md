@@ -17,3 +17,19 @@ Invoke-RestMethod http://127.0.0.1:8010/api/health
 ```
 
 The runtime schema is the authoritative reference for request fields. The application currently has no authentication layer; use it on a trusted local interface.
+
+## Record a run
+
+```powershell
+$body = @{
+    prompt = "Convert INR 50,000 to USD and compute EMI for 12 months at 9%."
+    task_family = "finance"
+    provider = "sandbox"
+} | ConvertTo-Json
+$created = Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8010/api/runs -ContentType application/json -Body $body
+$created.run_id
+```
+
+Creation returns HTTP 202 with a run ID. Fetch the run with `GET /api/runs/{run_id}` or connect to `ws://127.0.0.1:8010/api/runs/{run_id}/stream`. Streams contain durable step and terminal events; an `after` event cursor lets a client resume. Run retrieval immediately after creation may show queued/running state.
+
+Supported built-in families are `finance`, `sql`, `doc_qa`, and `math`. Unknown fields and invalid inputs are rejected by the API request models.
