@@ -172,3 +172,15 @@ print(run["run_id"])
 ```
 
 `blackbox.wrap` also accepts a compiled LangGraph graph. Native checkpointing enables fork/resume; provide an independent `check(final_state)` callback to label external outcomes. See [integrations](docs/INTEGRATIONS.md) and [the expense agent](examples/expense_agent.py).
+
+## Provider configuration
+
+| Provider | Configuration | Intended use |
+| --- | --- | --- |
+| Sandbox | `LLM_PROVIDER=sandbox` | Local demo and deterministic agent behavior without API credentials |
+| Ollama | `LLM_PROVIDER=ollama`, `OLLAMA_MODEL`, `OLLAMA_BASE_URL` | An optional locally hosted language model |
+| OpenAI | `LLM_PROVIDER=openai`, `OPENAI_API_KEY`, `OPENAI_MODEL` | Optional billed agent calls |
+
+Copy `.env.example` to `.env` and configure only the provider you need. Provider availability and active models are visible through `GET /api/llm/status`. Diagnosis uses local model artifacts; the optional narrative explainer has a separate provider setting.
+
+For billed experiments, review model availability, prices, and the usage budget before running them. The usage ledger is a local accounting control; it is not a provider-side billing limit. Never commit `.env` or credentials.
