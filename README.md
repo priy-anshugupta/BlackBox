@@ -184,3 +184,17 @@ print(run["run_id"])
 Copy `.env.example` to `.env` and configure only the provider you need. Provider availability and active models are visible through `GET /api/llm/status`. Diagnosis uses local model artifacts; the optional narrative explainer has a separate provider setting.
 
 For billed experiments, review model availability, prices, and the usage budget before running them. The usage ledger is a local accounting control; it is not a provider-side billing limit. Never commit `.env` or credentials.
+
+## Recorded evaluation
+
+These are **saved project experiments**, not fresh measurements from this repository migration. The final metrics file records generation on 3 October 2026. Model/provider names in those files are historical experiment labels.
+
+| Experiment | Recorded result | Evidence |
+| --- | --- | --- |
+| In-family localization, 322 failed test runs | 100% top-1 and top-3 | [Final metrics](data/metrics.json) |
+| Fault types withheld during training | 92.2% top-1 | [Final metrics](data/metrics.json) |
+| Sandbox-trained diagnosis on recorded OpenAI runs | 96.1% top-1 | [Cross-provider results](data/cross_provider_sandbox_to_openai.json) |
+| Previously unseen expense workflow, 125 failures | 23.2% top-1; rule baseline 40% | [Held-out workflow](data/metrics_heldout_workflow.json) |
+| Public Who&When benchmark | Weak zero-shot transfer | [Benchmark results](data/benchmark_whowhen.json) |
+
+Strong results on the project's own workflows do not establish general agent debugging accuracy. Read [evaluation methodology and limitations](docs/EVALUATION.md) before interpreting these numbers.
