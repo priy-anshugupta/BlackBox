@@ -39,3 +39,17 @@ BlackBox keeps the intermediate inputs, outputs, state, and dependencies so a de
 - **Developer integrations:** a LangGraph wrapper, Claude Code ingestion, MCP tools, and OpenTelemetry export.
 - **Local dashboard:** run history, incident details, replay, comparisons, evaluation, and light/dark themes.
 - **Review and export:** incident reports, regression-test export, and reviewed labels for later training.
+
+## How it works
+
+```text
+Agent execution → Step recorder → SQLite traces + checkpoints
+                                      ↓
+                            Diagnosis + evidence
+                                      ↓
+                     Candidate fix → Fork / partial replay
+                                      ↓
+                       Independent checks → Comparison
+```
+
+The built-in engine supports selective reuse. External LangGraph replay uses native checkpoints and LangGraph execution semantics; its replay capabilities differ from the built-in engine. See [architecture](docs/ARCHITECTURE.md).
