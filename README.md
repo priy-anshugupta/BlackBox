@@ -75,3 +75,22 @@ The built-in engine supports selective reuse. External LangGraph replay uses nat
 - An internet connection for initial dependency and feature-model downloads. The sandbox agent itself needs no API key.
 
 A GPU is optional. The commands below use CPU PyTorch. Diagnosis can download pretrained feature encoders on first use; see [setup notes](docs/SETUP.md) for offline behavior.
+
+## Quick start: Windows PowerShell
+
+Run these commands from a terminal with Python and Node.js installed:
+
+```powershell
+git clone https://github.com/priy-anshugupta/BlackBox.git
+cd BlackBox
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+Copy-Item .env.example .env
+npm --prefix dashboard ci
+npm --prefix dashboard run build
+.\.venv\Scripts\python.exe -m uvicorn blackbox.api.app:app --host 127.0.0.1 --port 8010 --env-file .env
+```
+
+Open [BlackBox](http://localhost:8010). The example configuration uses `LLM_PROVIDER=sandbox`, so no paid provider is needed. Startup may take longer while feature encoders initialize. Stop the server with `Ctrl+C`.
