@@ -152,3 +152,23 @@ Open [localhost:5174](http://localhost:5174). Vite proxies `/api` requests and W
 6. Use **Live run** to record a new task; the built-in families cover finance, SQL, document QA, and math.
 
 A successful replay supports a proposed explanation. It does not prove that the suggested step is the only possible cause. For an external graph example, run `python examples/expense_agent.py` in your virtual environment.
+
+## Use the Python SDK
+
+From the repository root with dependencies installed:
+
+```python
+import blackbox
+
+agent = blackbox.wrap(
+    blackbox.SandboxAgent(task_family="finance"),
+    db_path="data/my-agent.db",
+    llm="sandbox",
+)
+run = agent.invoke({
+    "prompt": "Convert INR 50,000 to USD and compute EMI for 12 months at 9%."
+})
+print(run["run_id"])
+```
+
+`blackbox.wrap` also accepts a compiled LangGraph graph. Native checkpointing enables fork/resume; provide an independent `check(final_state)` callback to label external outcomes. See [integrations](docs/INTEGRATIONS.md) and [the expense agent](examples/expense_agent.py).
