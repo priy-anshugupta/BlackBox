@@ -26,4 +26,4 @@ Describe the observed behavior and the expected behavior.
 
 ## Validation and evidence
 
-Include relevant checks, sanitized logs, or screenshots. Remove credentials, private prompts, database contents, and personal information before posting. Report sensitive vulnerabilities using SECURITY.md.
+Include relevant checks, sanitized logs, or screenshots. Remove credentials, private prompts, database contents, and personal information before posting. Report sensitive vulnerabilities using the [security guidance](../SECURITY.md).

@@ -1,10 +1,10 @@
 # Setup and local operation
 
-Start with the platform-specific commands in [the README](../README.md). Run all commands from the repository root unless stated otherwise.
+Start with the quick-start commands in [the README](../README.md). Run all commands from the repository root unless stated otherwise.
 
 ## Runtime and hardware
 
-Python 3.11/3.12 is recommended for dependency compatibility. The project declares Python 3.10+; the migration also verifies against the existing Windows Python 3.13 environment. Node.js 22 matches the dashboard Docker build. No GPU is required for the sandbox or CPU diagnosis.
+Python 3.11/3.12 is recommended for dependency compatibility. The package declares Python 3.10+. Node.js 22 matches the dashboard Docker build. No GPU is required for the sandbox or CPU diagnosis.
 
 The pretrained semantic/NLI feature encoders can be downloaded from Hugging Face during the first initialization. Internet-free agent execution does not guarantee an internet-free first installation. Existing model caches can be reused; an unavailable encoder may cause the feature extractor to fall back rather than provide the trained semantic representation.
 
@@ -50,6 +50,6 @@ For one server, build with `npm --prefix dashboard run build`, then open port 80
 | Diagnosis uses a fallback | Check `/api/models/status`, artifact paths, and available feature encoders |
 | Old incident still appears failed after a repair | Repairs create linked branches; the original remains unchanged |
 | No demo runs | Demo seeding only populates an empty database and must be enabled |
-| MCP import fails | The MCP module is optional and its SDK is not declared by the base requirements; see [integrations](INTEGRATIONS.md) |
+| MCP import fails | The MCP module is optional and its SDK is not declared by the base requirements; see [integration notes](DEVELOPMENT.md#integrations) |
 
 For offline validation, export `HF_HUB_OFFLINE=1` and `TRANSFORMERS_OFFLINE=1`. This uses locally available encoders or fallback behavior and must not be treated as reproduction of the published trained-model metrics.

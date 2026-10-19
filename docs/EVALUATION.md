@@ -2,7 +2,7 @@
 
 ## What the saved results mean
 
-The repository includes saved JSON metrics and trained model artifacts from the hackathon experiments. They are historical measurements on specific datasets, workflows, and environments. They were not rerun as part of preparing the personal repository.
+The repository includes saved JSON metrics and trained model artifacts from recorded experiments. They are historical measurements on specific datasets, workflows, and environments. Treat them as saved measurements rather than a benchmark rerun on your machine.
 
 `data/metrics.json` records the final in-family ensemble evaluation, including a 322-failure test split and baseline comparisons. `metrics_heldout_workflow.json` evaluates an expense graph that was absent from training: top-1 localization is 0.232 versus 0.4 for the rule baseline. This difference is central to understanding the current diagnosis model.
 
