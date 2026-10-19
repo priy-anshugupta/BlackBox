@@ -28,3 +28,14 @@ Screenshots are captured from the existing project UI; appearance can vary with 
 Agent failures often show up several steps after the original mistake. A stale tool response can reach a calculator, a planner can lose a constraint, or a final answer can hide an earlier error. A final transcript alone makes these problems difficult to investigate.
 
 BlackBox keeps the intermediate inputs, outputs, state, and dependencies so a developer can follow the failure backward, inspect the evidence, and compare a proposed repair against an independent check. My focus for this personal continuation is making that workflow easier to run, understand, and extend.
+
+## Features
+
+- **Execution recording:** per-step inputs, outputs, dependencies, token usage, and checkpoints.
+- **Failure investigation:** ranked suspect steps, observable evidence, and dependency views.
+- **Checkpoint replay:** test output or prompt patches while preserving the original incident.
+- **Alternative fixes:** compare candidate repairs using independent acceptance checks.
+- **Live recovery:** prefix checks can trigger bounded repair attempts before dependent steps run.
+- **Developer integrations:** a LangGraph wrapper, Claude Code ingestion, MCP tools, and OpenTelemetry export.
+- **Local dashboard:** run history, incident details, replay, comparisons, evaluation, and light/dark themes.
+- **Review and export:** incident reports, regression-test export, and reviewed labels for later training.
