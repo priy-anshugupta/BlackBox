@@ -26,3 +26,11 @@ python -m blackbox.mcp_server
 ```
 
 Point your MCP client's stdio configuration at that command using the repository root as its working directory. Tools include `list_failed_runs`, `diagnose_run`, `explain_run`, `test_fix`, and `failure_stats`. `test_fix` creates replay branches; the other tools inspect recorded data. Review the underlying provider and replay behavior before allowing a client to trigger experiments.
+
+## Claude Code hooks
+
+The sample [hook settings](../integrations/claude_code_settings.json) sends `UserPromptSubmit`, `PostToolUse`, `PostToolUseFailure`, and `Stop` events to `POST /api/ingest/claude-code`.
+
+Merge the relevant entries into your own Claude Code configuration after reviewing them; avoid overwriting existing hooks. The sample assumes a local backend on port 8010. A command-hook alternative is provided in [claude_code_hook.py](../integrations/claude_code_hook.py), which accepts event JSON on standard input and tolerates an unavailable backend.
+
+This adapter records and diagnoses a coding session. It does not checkpoint, fork, or resume Claude Code. Hook events can contain prompts, tool arguments, and outputs, so use a local trusted backend and inspect data before sharing reports.
