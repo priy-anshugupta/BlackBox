@@ -198,3 +198,18 @@ These are **saved project experiments**, not fresh measurements from this reposi
 | Public Who&When benchmark | Weak zero-shot transfer | [Benchmark results](data/benchmark_whowhen.json) |
 
 Strong results on the project's own workflows do not establish general agent debugging accuracy. Read [evaluation methodology and limitations](docs/EVALUATION.md) before interpreting these numbers.
+
+## Current status and limitations
+
+BlackBox is a working research prototype and portfolio project. It has meaningful limits:
+
+- Diagnosis transfers poorly to unfamiliar workflows without suitable labels and validation.
+- The natural-failure dataset is dominated by one router failure pattern.
+- Live recovery checks were designed with the built-in fault catalogue in mind.
+- Explanations use observable traces; private model reasoning is not available.
+- External LangGraph graphs and Claude Code sessions have different recording/replay capabilities.
+- The QLoRA explainer training script is experimental; a fine-tuned explainer is not shipped.
+- The API has no built-in authentication and is intended for trusted local use.
+- Large generated datasets and trace databases are excluded, so saved benchmark results are not a complete reproduction bundle.
+
+Planned directions include broader workflow evaluation, more diverse natural failures, and clearer integration/setup tooling. These are goals, not delivered features.
