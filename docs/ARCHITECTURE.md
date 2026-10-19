@@ -23,3 +23,11 @@ Replay creates a new linked run, preserving the original incident. The built-in 
 `strategies.py` describes candidate repairs and their preconditions. Experiments can test several candidates from one incident. Results include independent check outcomes, cost/usage, and the relationship between the original and replay branches.
 
 External LangGraph graphs use native graph checkpoints. Their reducers and scheduling rules remain controlled by LangGraph. Graphs without a checkpointer can be recorded but cannot fork or resume. The SDK capability map explicitly does not promise the built-in engine's selective reuse for arbitrary external graphs.
+
+## Live recovery and review
+
+`live.py` evaluates prefixes after each step, before dependent steps execute. Recovery attempts are bounded; unsuitable incidents can be escalated instead of continually retried. The built-in checks were written with the known fault catalogue in mind, which limits claims about unseen failures.
+
+`memory.py` finds strategies that previously passed in similar tested incidents. `review_queue.py` records human confirmation/correction of suspects, exports labels, and supports training into a separate model directory before promotion.
+
+`report.py` generates incident reports and `regression.py` exports failures as pytest regression checks. These exports help turn an investigation into a repeatable engineering artifact; exported checks still need review for environment and data assumptions.
