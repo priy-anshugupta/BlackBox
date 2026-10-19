@@ -66,3 +66,12 @@ The built-in engine supports selective reuse. External LangGraph replay uses nat
 | Observability | OpenTelemetry and OpenInference-style span attributes |
 | Verification | pytest, FastAPI TestClient, dashboard production build |
 | Packaging | Docker and Docker Compose |
+
+## Requirements
+
+- Python **3.11 or 3.12 recommended**; package metadata permits Python 3.10+.
+- Node.js **22 LTS** and npm for the dashboard.
+- Git and sufficient disk space for Python/ML dependencies and feature-model caches.
+- An internet connection for initial dependency and feature-model downloads. The sandbox agent itself needs no API key.
+
+A GPU is optional. The commands below use CPU PyTorch. Diagnosis can download pretrained feature encoders on first use; see [setup notes](docs/SETUP.md) for offline behavior.
