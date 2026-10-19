@@ -111,3 +111,15 @@ python -m uvicorn blackbox.api.app:app --host 127.0.0.1 --port 8010 --env-file .
 ```
 
 Open [localhost:8010](http://localhost:8010). On Linux, install a CPU-only PyTorch wheel first if you want to avoid the default accelerator dependencies. These instructions describe the supported setup path; see [validation](docs/VALIDATION.md) for what was actually checked during this migration.
+
+## Run with Docker
+
+With Docker Compose available, run from the repository root:
+
+```bash
+docker compose up --build
+```
+
+Open [localhost:8010](http://localhost:8010). The Compose service binds to loopback and mounts `./data` for local models, metrics, caches, and databases. `.env` is optional for Compose; copy the example if you want custom settings. The first build installs the Python and JavaScript dependencies and can take time.
+
+Use `docker compose down` to stop the services. Local data in `./data` remains on disk. See [setup](docs/SETUP.md) for configuration details.
