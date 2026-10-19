@@ -19,3 +19,13 @@ Keep fresh experiments in separate database, metrics, and model paths. Never ove
 Useful entry points include `blackbox.datagen`, `blackbox.models.train`, `blackbox.eval_natural`, `blackbox.live_eval`, `blackbox.hard_negatives`, `blackbox.benchmarks.heldout_workflow`, and `blackbox.benchmarks.whowhen`. Some require generated inputs or external benchmark data; a module name is not a promise of a self-contained reproduction command.
 
 Record provider, model, dataset split, seed, feature availability, hardware, run count, and output paths for each new result. Billed calls are optional and should be explicitly configured with an appropriate budget.
+
+## Model artifacts
+
+`data/models/` contains the Transformer and autoencoder weights, LightGBM model, scaler, and ensemble configuration. Code lives in `blackbox/models/`; runtime availability is visible at `/api/models/status`.
+
+The model ensemble expects the trained feature representation. Missing pretrained feature encoders and runtime fallback behavior can change diagnosis quality. Passing functional tests with offline features does not revalidate the stored benchmark scores.
+
+Reviewed incidents can be collected through `review_queue.py`. Export labels and train into a new output directory, then compare against existing models on held-out data before promotion. Avoid training on the same incidents used to report evaluation accuracy.
+
+The QLoRA script in `scripts/kaggle_qlora_explainer.py` is an experimental training aid. There is no shipped fine-tuned narrative adapter, and template explanations remain the default.
