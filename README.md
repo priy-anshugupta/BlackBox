@@ -248,3 +248,18 @@ npm --prefix dashboard run build
 On Windows you can invoke `.\.venv\Scripts\python.exe -m pytest -q` directly. Use `LLM_PROVIDER=sandbox` and `EXPLAINER_NARRATIVE=template` for local validation. Feature encoders may download on first use; set `HF_HUB_OFFLINE=1` and `TRANSFORMERS_OFFLINE=1` when validating without downloads, allowing the available fallback behavior.
 
 The existing suite covers recording, failure diagnosis, replay, alternatives, verification, external graph handling, API behavior, and ingestion. The dashboard build checks compilation; it is not an automated browser test.
+
+## Documentation
+
+| Guide | Contents |
+| --- | --- |
+| [Setup](docs/SETUP.md) | Environment, model downloads, development, troubleshooting |
+| [Architecture](docs/ARCHITECTURE.md) | Recording, diagnosis, replay, and live recovery |
+| [Integrations](docs/INTEGRATIONS.md) | LangGraph, MCP, Claude Code, and tracing |
+| [API](docs/API.md) | Health checks, run requests, replay, and endpoint map |
+| [Evaluation](docs/EVALUATION.md) | Saved evidence, scope, and reproduction limits |
+| [Validation](docs/VALIDATION.md) | Checks performed for the personal repository migration |
+| [Contributing](CONTRIBUTING.md) | Development workflow and contribution expectations |
+| [Project origins](docs/PROVENANCE.md) | Team credit and personal continuation |
+
+The [original README](docs/HACKATHON_README.md), [demo guide](PROJECT_DEMO_GUIDE.md), and [pitch notes](docs/PITCH.md) remain as historical hackathon material. Some commands and claims in those documents refer to local experiment files that are not included in this repository. Prefer the guides above for current onboarding.
