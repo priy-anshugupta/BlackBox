@@ -94,3 +94,20 @@ npm --prefix dashboard run build
 ```
 
 Open [BlackBox](http://localhost:8010). The example configuration uses `LLM_PROVIDER=sandbox`, so no paid provider is needed. Startup may take longer while feature encoders initialize. Stop the server with `Ctrl+C`.
+
+## Quick start: macOS / Linux
+
+```bash
+git clone https://github.com/priy-anshugupta/BlackBox.git
+cd BlackBox
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+cp .env.example .env
+npm --prefix dashboard ci
+npm --prefix dashboard run build
+python -m uvicorn blackbox.api.app:app --host 127.0.0.1 --port 8010 --env-file .env
+```
+
+Open [localhost:8010](http://localhost:8010). On Linux, install a CPU-only PyTorch wheel first if you want to avoid the default accelerator dependencies. These instructions describe the supported setup path; see [validation](docs/VALIDATION.md) for what was actually checked during this migration.
