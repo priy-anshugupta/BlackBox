@@ -1,8 +1,48 @@
 # BlackBox
 
-A flight recorder and debugger for AI agents. Record executions, investigate failures, and test fixes from saved checkpoints in a local dashboard.
+**BlackBox is a flight recorder and debugging workspace for AI agents.** It captures what happens during an agent's execution so developers can inspect failures, identify likely causes, and test fixes from saved checkpoints.
+
+An agent's final answer rarely tells the whole story. A stale tool response, a missing constraint, or an incorrect intermediate calculation can affect several later steps before a failure becomes visible. BlackBox records the inputs, outputs, state, and dependencies behind those steps, making the execution easier to follow and investigate.
+
+The local dashboard brings together run history, failure evidence, suspect steps, and replay comparisons. Instead of starting every investigation from scratch, you can return to a checkpoint, try an intervention, and evaluate the resulting branch with independent acceptance checks while keeping the original run intact.
 
 ![BlackBox dashboard](dashboard/screenshots/01_home_dark.png)
+
+## Architecture
+
+```mermaid
+flowchart TD
+    Dashboard["React dashboard"] <--> API["FastAPI backend"]
+
+    subgraph Recording["Execution and recording"]
+        Agent["Built-in agent or external LangGraph"] --> Recorder["Execution engine and recording adapters"]
+        Recorder --> Storage["SQLite traces and checkpoints"]
+    end
+
+    subgraph Diagnosis["Failure investigation"]
+        Features["Semantic and numeric features"] --> Models["Transformer, LightGBM and autoencoder"]
+        Models --> Evidence["Ranked suspects and supporting evidence"]
+    end
+
+    subgraph Recovery["Replay and verification"]
+        Replay["Checkpoint replay with a candidate fix"] --> Checks["Independent acceptance checks"]
+        Checks --> Compare["Original and repaired run comparison"]
+    end
+
+    API --> Recorder
+    Storage --> Features
+    Evidence --> API
+    API --> Replay
+    Storage --> Replay
+    Replay --> Recorder
+    Compare --> API
+```
+
+1. **Capture the execution.** The engine and recording adapters save step-level observations, dependencies, and available checkpoints. The backend streams execution updates to the dashboard.
+2. **Investigate the failure.** Semantic and numeric features feed a diagnosis ensemble that ranks likely suspect steps. The workspace presents those predictions alongside recorded evidence.
+3. **Test a repair.** A candidate fix creates a replay branch from a checkpoint. Independent checks evaluate its outcome, and the dashboard compares the branch with the original run.
+
+The built-in engine supports reuse of unaffected work. External LangGraph graphs use native checkpoint and scheduling semantics, so their replay capabilities differ. See the [development guide](docs/DEVELOPMENT.md) for implementation details.
 
 ## Features
 
