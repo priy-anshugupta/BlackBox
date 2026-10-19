@@ -76,7 +76,6 @@ export default function Live({ llm, onDone, openRun }) {
     }
   };
 
-  const gpt = llm?.openai_key_configured;
   return (
     <>
       <PageHead title="Live run">
@@ -91,10 +90,6 @@ export default function Live({ llm, onDone, openRun }) {
             <Field label="Agent model">
               <select value={provider} onChange={(e) => setProvider(e.target.value)} disabled={busy}>
                 <option value="default">Default ({llm?.active_provider === "sandbox" ? "offline sandbox" : llm?.active_model})</option>
-                <option value="openai" disabled={!gpt}>
-                  OpenAI {llm?.openai_model || "gpt-6-luna"} {gpt ? "· billed, capped by LLM_BUDGET_USD" : "· add a key to .env"}
-                </option>
-                <option value="sandbox">Offline sandbox · free, no internet</option>
                 <option value="ollama">Ollama {llm?.ollama_model} · local</option>
               </select>
             </Field>
