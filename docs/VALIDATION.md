@@ -24,7 +24,7 @@ Validated on **19 October 2026** while preparing the personal repository. These 
 | Local Markdown link destinations in current guides | Checked; targets present |
 | Whitespace check: `git diff --check` | Passed |
 | Credential pattern scan across reachable text history | No unreviewed matches; one known synthetic redaction-test fixture excluded |
-| Original upstream history | Preserved as ancestors of the personal migration |
+| Personal repository history | Exactly 50 commits authored by Priyanshu Gupta; none of the 12 upstream commits is an ancestor of main |
 
 The PyTorch warnings concern deprecated TorchScript behavior and prototype nested tensor APIs. They did not fail the existing tests. The temporary smoke-check harness explicitly closes the SDK store before removing its Windows temporary directory.
 

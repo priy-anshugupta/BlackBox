@@ -4,9 +4,11 @@ BlackBox began as the NeuralForge team's Bit and Build hackathon project. The or
 
 The personal repository [priy-anshugupta/BlackBox](https://github.com/priy-anshugupta/BlackBox) is maintained by **Priyanshu Gupta**. It continues the team-built implementation for portfolio use and future development, with onboarding and repository documentation adapted for that purpose.
 
-## Preserved history
+## Personal repository history
 
-The imported branch contained 12 reachable commits ending at `1fc5e5e`. Author names in that history include Priyanshu Gupta, Aashutosh-Mahajan, and AdityaPatra1947. Those commits retain their original IDs and authorship. The personal migration adds 50 focused commits using current timestamps; it does not invent an earlier development timeline.
+The source snapshot came from the upstream project at `1fc5e5e`, plus a saved local UI edit. The upstream history includes Priyanshu Gupta, Aashutosh-Mahajan, and AdityaPatra1947. At the personal maintainer's request, the 12 upstream commits are not included in this repository's main branch.
+
+The personal repository has 50 commits authored by Priyanshu Gupta, starting with an explicit code import and followed by documentation and repository setup changes. These use current timestamps and do not represent 50 earlier implementation milestones. Original team credit is retained in the README and this document; the upstream history remains available at the source repository.
 
 A saved local edit to `dashboard/src/screens/Live.jsx` is carried over separately. The original working folder and upstream remote are not modified by this migration.
 

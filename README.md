@@ -4,7 +4,7 @@
 
 Record an agent run, investigate where it went wrong, and test a fix from a saved checkpoint. BlackBox connects execution traces, failure diagnosis, and replay in one local workspace.
 
-**Personal project maintained by [Priyanshu Gupta](https://github.com/priy-anshugupta).** Originally developed with the NeuralForge team for the Bit and Build hackathon; this repository continues that work as a personal portfolio project. Original authorship and Git history are preserved. See [project origins](docs/PROVENANCE.md).
+**Personal project maintained by [Priyanshu Gupta](https://github.com/priy-anshugupta).** Originally developed with the NeuralForge team for the Bit and Build hackathon; this repository continues that work as a personal portfolio project with a fresh Git history. See [project origins and team credit](docs/PROVENANCE.md).
 
 [Quick start](#quick-start-windows-powershell) · [Demo walkthrough](#try-the-workflow) · [Architecture](docs/ARCHITECTURE.md) · [Evaluation](docs/EVALUATION.md) · [Contributing](CONTRIBUTING.md)
 
@@ -249,6 +249,8 @@ On Windows you can invoke `.\.venv\Scripts\python.exe -m pytest -q` directly. Us
 
 The existing suite covers recording, failure diagnosis, replay, alternatives, verification, external graph handling, API behavior, and ingestion. The dashboard build checks compilation; it is not an automated browser test.
 
+Validated for this personal repository on **19 October 2026**: **49 backend tests passed**, the dashboard production build passed, and the README SDK example plus core API smoke checks passed. See [validation details and scope](docs/VALIDATION.md). A GitHub Actions workflow is included for future backend tests and dashboard builds.
+
 ## Documentation
 
 | Guide | Contents |
@@ -268,7 +270,7 @@ The [original README](docs/HACKATHON_README.md), [demo guide](PROJECT_DEMO_GUIDE
 
 Maintained here by **[Priyanshu Gupta](https://github.com/priy-anshugupta)** as a personal continuation of the NeuralForge Bit and Build project.
 
-The original Git history includes contributions by **Priyanshu Gupta**, **Aashutosh Mahajan**, and **Aditya Patra**. The upstream project is [BNB26_NeuralForge_Internal_Round](https://github.com/Aashutosh-Mahajan/BNB26_NeuralForge_Internal_Round). This repository preserves those commits and does not claim sole authorship of the team-built implementation.
+The original project includes contributions by **Priyanshu Gupta**, **Aashutosh Mahajan**, and **Aditya Patra**. The upstream project is [BNB26_NeuralForge_Internal_Round](https://github.com/Aashutosh-Mahajan/BNB26_NeuralForge_Internal_Round). This personal repository starts with an imported code snapshot and does not include the upstream team's commit history. Team credit remains here to acknowledge the implementation's origins.
 
 No project-wide open-source license has been added during this migration. Existing authors retain their rights; repository visibility alone does not grant a license. See [provenance](docs/PROVENANCE.md).
 
