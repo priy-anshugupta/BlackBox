@@ -263,3 +263,13 @@ The existing suite covers recording, failure diagnosis, replay, alternatives, ve
 | [Project origins](docs/PROVENANCE.md) | Team credit and personal continuation |
 
 The [original README](docs/HACKATHON_README.md), [demo guide](PROJECT_DEMO_GUIDE.md), and [pitch notes](docs/PITCH.md) remain as historical hackathon material. Some commands and claims in those documents refer to local experiment files that are not included in this repository. Prefer the guides above for current onboarding.
+
+## Credits and authorship
+
+Maintained here by **[Priyanshu Gupta](https://github.com/priy-anshugupta)** as a personal continuation of the NeuralForge Bit and Build project.
+
+The original Git history includes contributions by **Priyanshu Gupta**, **Aashutosh Mahajan**, and **Aditya Patra**. The upstream project is [BNB26_NeuralForge_Internal_Round](https://github.com/Aashutosh-Mahajan/BNB26_NeuralForge_Internal_Round). This repository preserves those commits and does not claim sole authorship of the team-built implementation.
+
+No project-wide open-source license has been added during this migration. Existing authors retain their rights; repository visibility alone does not grant a license. See [provenance](docs/PROVENANCE.md).
+
+For bugs and suggestions, [open an issue](https://github.com/priy-anshugupta/BlackBox/issues).
